@@ -14,8 +14,8 @@
 
     ServerName localhost
     ServerAlias localhost
-   Alias /media/ /opt/
-   Alias /static/ /opt/
+    Alias /media/ /opt/
+    Alias /static/ /opt/
     DocumentRoot /opt
     ServerPath "/opt/"
     <Directory /opt/>
