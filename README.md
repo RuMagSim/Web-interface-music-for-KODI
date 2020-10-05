@@ -10,7 +10,7 @@
    - 8000 порт на медиаресурсы. Приведен пример монтирования папки с музыкальными файлами в директорию /opt . Исправьте ссылку на собственную директорию нахождения папки медиатеки.
    - 80 порт - Вебинтерфейс для прослушивания музыки, желательно на стандартном порту для удобства. На данном примере проект расположен в папке:  /var/www/
 
-<VirtualHost *:8888>
+    <VirtualHost *:8888>
 
     ServerName localhost
     ServerAlias localhost
@@ -26,9 +26,9 @@
         ErrorLog ${APACHE_LOG_DIR}/error.log
         CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-</VirtualHost>
+    </VirtualHost>
 
-<VirtualHost *:80>
+    <VirtualHost *:80>
      ServerName localhost
      ServerAlias localhost
      # axe from staic files django
@@ -50,7 +50,7 @@
     Require all granted
     </Files>
     </Directory>
-</VirtualHost>
+    </VirtualHost>
 
 
 - В файле settings.py в 97 строке MEDIA_URL = 'http://You_ip_address:port' назначьте свой адрес
