@@ -1,0 +1,108 @@
+{% extends "base_generic.html" %}
+
+{% block head %}
+{% endblock %}
+{% block menu %} 
+{% endblock %}
+{% block artist %}
+    <br>
+	<p align="center">
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Поиск по артисту.." title="Type in a name">
+	<hr>
+	<center><button onclick="sortGenre()">Выровнять по жанрам</button>
+	</center>
+	</p>
+{% endblock %}
+    <hr>
+	<hr>
+{% block content %}
+	<br>
+    <br>
+	<div class="text-muted">
+    <table width="80%" id="myUL">
+    {% if artist_list %}
+    {% for artist in artist_list %} 
+	    <tr>
+    <!-- artist photo -->
+	     <!--<td width="12%" height="35px">
+	{% for art in artist.art_artist.all %}
+	{% if "thumb" in art.type and "artist" in art.media_type %}
+	          <img src="{{ art }}" class="img-responsive" height="auto" height="auto"></p> 
+	{% endif %}
+	{% endfor %}
+	        </td> -->  
+            <td width="60%">
+                <a href="{{ artist.get_absolute_url }}">{{artist}}</a>
+	        </td> 
+            <td  width="20%">
+			    <center>{{artist.album_set.all.count}}</center></td>
+            </td>
+	        <td> 
+			    {{artist.genre_artist}} 
+			</td>
+	    </tr>
+	{% endfor %}
+    {% else %}
+     <p>There are no artists in the library.</p>
+    {% endif %}
+    </table>
+    <style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+    </style>
+    </div>
+	<script>
+    function myFunction() {
+        var input, filter, table, tr, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myUL");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+           a = tr[i].getElementsByTagName("a")[0];
+           if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+             tr[i].style.display = "";
+              } else {
+                 tr[i].style.display = "none";
+
+              }
+           }
+    }
+	function sortGenre(){
+  
+        sortedRows = Array.from(myUL.rows)
+           .slice(0)
+           .sort((rowA, rowB) => rowA.cells[2].innerHTML > rowB.cells[2].innerHTML ?  1 : -1);
+
+        myUL.tBodies[0].append(...sortedRows);
+		}
+    </script>
+{% endblock %}
+
+
+{% block pagination %}
+    {% if is_paginated %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_artist.has_previous %}
+                    <a href="{{ request.path }}?page={{ page_artist.previous_page_number }}">previous</a>
+                {% endif %}
+                    <span class="page-current">
+                    Page {{ page_artist.number }} of {{ page_artist.paginator.num_pages }}.
+                    </span>
+                {% if page_artist.has_next %}
+                   <a href="{{ request.path }}?page={{ page_artist.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
+{% endblock %}

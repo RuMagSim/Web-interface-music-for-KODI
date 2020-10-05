@@ -1,0 +1,54 @@
+{% extends "base_generic.html" %}
+{% block head %} Поиск
+   <link rel="stylesheet" href="static/css/styles.css">
+{% endblock %}
+    <body>
+{% block menu %}{% endblock %}
+
+{% block content %}
+
+    <hr>
+    <p>Результат по поиску : <strong>{{ query }}</strong></p>
+        {% if songs %}
+    <p> Найдено {{ songs|length }} трека(ов).</p>
+        {% for song in songs %}
+           <div class="text-muted">
+               <p><h6>{{ song.track }} &nbsp; <font color="black">{{ song.title }}</font>&nbsp;&nbsp;&nbsp;<b>{{ song.name_artists }}</b></a>&nbsp;
+	           <a href="{% url 'album_detail' song.album.pk %}">{{song.album}}</a>&nbsp; {{song.year}}&nbsp; {{song.genres}}&nbsp;&nbsp;</h6></p> 
+	        </div>
+        {% endfor %}
+	    {% else %}
+        <p>Ничего не обнаружено</p>
+        {% endif %}	  
+
+    <p> Найдено {{artists|length}} артист(ов).</p>
+        {% for song in artists %}
+		    <div class="text-muted">
+            <p><h6>{{ song.track }} &nbsp; <font color="black">{{ song.title }}</font>&nbsp;&nbsp;&nbsp;<b>{{ song.name_artists }}</b></a>&nbsp;
+	        <a href="{% url 'album_detail' song.album.pk %}">{{song.album}}</a>&nbsp; {{song.year}}&nbsp; {{song.genres}}&nbsp;&nbsp;</h6></p> 
+	        </div>
+        {% endfor %}
+{% endblock %}
+
+{% block player %}
+    <hr>
+    <h3 class="text-muted" align="center">Плейлист</h3>
+    <hr>
+	<div class="panel panel-default">
+    <audio id="audio"  controls>
+    {% if songs %}
+        <source src="{{MEDIA_URL}}{{song.path}}{{song.file_name}}">
+	    </audio>
+    </div>
+        <ul id="playlist">
+        {% for song in songs %}
+			<li class="list-group-item">
+			<a href="{{ MEDIA_URL }}{{ song.path }}{{song.file_name}}"><small>{{ song.track }} &nbsp;{{ song.title }}</small></a>
+            </li>
+        {% endfor %}
+        </ul> 
+   	       <script src="/static/js/playlist.js"></script>  
+    {% endif %}	
+    </body>
+
+ {% endblock %}

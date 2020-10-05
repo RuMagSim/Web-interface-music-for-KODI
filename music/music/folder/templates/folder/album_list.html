@@ -1,0 +1,12 @@
+{% extends "base_generic.html" %}
+{% block content %}
+    <h2 class="text-muted">Альбом</h2>
+	{% if album_list %}
+    {% for album in album_list %}
+    <p><h5><a href="{{ album.get_absolute_url }}">{{ album.name_album }}:{{album.artists}}</a>
+    </h5></p>
+    {% endfor %}
+	{% else %}
+       <p>There are no artists in the library.</p>
+    {% endif %} 
+{% endblock %}

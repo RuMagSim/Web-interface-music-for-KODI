@@ -1,0 +1,29 @@
+{% extends "base_generic.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block menu %} 
+{% endblock %}
+
+{% block content %}
+	<body>
+	<br>
+    <form action="/search/" method="get">
+    <p><input class="form-control" placeholder="Поиск.." type="text" name="q">
+	</p>
+	</form>
+	<hr>
+	<div class="newspaper">
+    {% if artist_list %}
+    {% for artist in artist_list %} 
+       <h5><a href="{% url 'song_detail' artist.pk %}">{{artist}}</a></h5>
+    {% endfor %}
+    {% else %}
+    <p>There are no artists in the library.</p>
+    {% endif %} 
+    </div>	
+{% endblock %}
+    </body>
+
+ 

@@ -1,0 +1,103 @@
+{% extends "base_generic.html" %}
+    <head>
+	<link rel="stylesheet" href="/static/css/hidden_scroll.css">
+	</head>
+	<body>
+{% block artist %}
+	<div class="col-md-12 col-xs-00 hidden-xs" > 
+	{% for members in album.members.all %} 
+       {% for art in members.art_artist.all %}
+	   {% ifequal art.media_type "artist" %}
+	   <p align="top"><img src="{{ MEDIA_URL }}{{ art }}" width="90%" height="auto" class="img-thumbnail"></p>
+	   {% endifequal %}
+	   {% endfor %}
+	   {% endfor %}
+	</div>
+{% endblock %}
+	 
+	 
+{% block content %}
+    <hr>
+	<div class="text-muted">
+        {% for members in album.members.all %} 
+        <h3 class="foncolor"> <a href="{% url 'artist_detail' members.pk %}">{{ members }}</a></h3> 
+        {% endfor %}
+    <hr>
+        <p class="foncolor"><strong>&nbsp;Год:</strong> &nbsp;{{ album.year }} </p>
+        <p class="foncolor"><strong>&nbsp;Стиль:</strong>&nbsp; {{ album.name_genre }} 
+            &nbsp;<strong>Лейбл:</strong>&nbsp; {{ album.label }} </p> 
+    <hr>
+    <h3 class="foncolor">{{ album }} </h3> 
+	    <div class="row">
+            <div class="col-md-7 hidden-xs" > 
+                <div class="foncolor">
+        {% for song in album.song_set.all %}
+	        <p><h6>{{ song.track }} &nbsp; <font color="black">{{ song.title }} </font>
+        {% for members in song.members.all %}<a href="{% url 'song_detail' members.pk %}"><b>{{ members}}</b></a>
+		{% endfor %}
+		    &nbsp;&nbsp;<small>{{song.comment}}</small></h6></p>
+	    {% endfor %}
+	            </div>
+            </div>
+	
+	        <div class="col-md-5">
+        {% for art in album.art_set.all %}
+		{% ifequal art.media_type "album" %}	
+
+            <!--
+	            <style type="text/css">
+                    body {
+	                background: url("{{ art }}") no-repeat;
+                    background-size: 100%;
+	            </style> -->
+            <p align="center">  <img src="{{ MEDIA_URL }}{{ art }}" width="320" height="auto"> </p>
+	    {% endifequal %}
+		{% endfor %}
+	    <center><p><a href="{{album.pk|add:'-1'}}"><button>  Предыдущий </button></a> альбом   
+            <a href="{{album.pk|add:'1'}}"><button>	Следующий </button></a></center> </p></center>
+	
+                <div>
+            <a class="btn btn-outline-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                m3u</a>
+                    <div class="collapse" id="collapseExample">
+                        <div class="card card-body">
+        {% for song in album.song_set.all %}
+        <p><small>{{MEDIA_URL}}{{song.path}}{{song.file_name}}</small></p>
+        {% endfor %}
+	                    </div>
+                    </div>
+		        </div>
+            </div>
+        </div>
+    </div>
+
+  
+{% endblock %}
+
+
+{% block player %}
+    <hr>
+    <p class="bg-info"><h3 class="text-muted" align="center">Плейлист</h3> </p>
+    <hr>
+    <div class="panel panel-default ">
+    <audio id="audio" preload="auto" controls>
+	{% for song in album.song_set.all %}
+	    <source src="{{ MEDIA_URL }}{{ song.path }}{{song.file_name}}">
+    {% endfor %}</audio>
+        <style>
+			position: fixed;
+	    </style>
+	</div>
+	
+	<div class="prokr scrollbar square scrollbar-lady-lips thin"
+        <ul id="playlist">
+    {% for song in album.song_set.all %}
+		<li class="list-group-item">
+	    <a href="{{ MEDIA_URL }}{{ song.path }}{{song.file_name}}"><small>{{ song.title }}</small></a>
+        </li>
+	{% endfor %}	
+        </ul> 
+	</div>	 
+            <script src="{{ MEDIA_URL }}/stat/js/playlist.js"></script>  
+    </body>
+{% endblock %}

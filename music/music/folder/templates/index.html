@@ -1,0 +1,78 @@
+{% extends "base_generic.html" %}
+
+{% block head %}
+{% endblock %}
+{% block menu %} 
+{% endblock %}
+
+{% block sidebar %}
+	<br>
+        <ul class="sidebar-nav">
+	
+            <a href="{% url 'index' %}"><button type="button" class="btn btn-default btn-block">МагСим</button></a>
+
+            <a href="{% url 'artists' %}"><button type="button" class="btn btn-default btn-block">Группы</button></a>
+            <!-- <button type="button" class="btn btn-default btn-block"><a href="{% url 'albums' %}">Альбомы</a></button> -->
+		    <a href="{% url 'genres' %}"><button type="button" class="btn btn-default btn-block">Жанр</button></a>
+		    <a href="{% url 'songs' %}"><button type="button" class="btn btn-default btn-block">Все исполнители</button></a>
+		 
+        </ul>
+	<br>
+	<hr>	   
+	<style>
+        p, h6 {
+        margin-left: 20px;
+        }
+    </style>
+	  <h6><b> Информация: </b></h6>
+
+    <p> <small>
+        При возможности достойные треки будут заменяться на flac формат.
+    </small></p>
+  
+    <hr>
+{% endblock %}
+{% block content %}
+   {% if art_list %}
+   {% for art in art_list %}
+        <img src="{{MEDIA_URL}}{{ art }}" width="auto" height="420px"  class="img-thumbnail" > 
+   {% endfor %}
+    {% else %}
+    <p>There are no art in the library.</p>
+    {% endif %} 
+    <hr>
+        <form action="/search/" method="get">
+            <p><input class="form-control" placeholder="Поиск.." type="text" name="q">
+
+        </form>
+	<hr>
+    <h5> Последние загруженные альбомы:</h5>
+	    <div class="newspaper">
+	    {% if album_list %}
+        {% for album in album_list %}
+        <p><h5>
+	       <a href="{{ album.get_absolute_url }}">{{ album.name_album }}</a> {{album.artists}}
+	    </h5></p>
+        {% endfor %}
+	    {% else %}
+        <p>There are no album in the library.</p>
+        {% endif %} 
+        </div>
+	<hr>
+
+{% endblock %}
+
+{% block player %}
+    <hr>
+    <h5>Новые альбомы:</h5>
+	   {% if album2_list %}
+       {% for album in album2_list %}
+       <p><h5>
+           <a href="{{ album.get_absolute_url }}">{{ album.name_album|truncatechars:45 }}</a>  {{album.year}}  {{album.artists}}
+	   </h5></p>
+      {% endfor %}
+	  {% else %}
+      <p>There are no album in the library.</p>
+      {% endif %}
+	  <hr>
+{% endblock %}

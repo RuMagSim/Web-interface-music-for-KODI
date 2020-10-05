@@ -1,0 +1,49 @@
+{% extends "./song_list.html" %}
+    <body>
+{% block content %}
+    <hr>
+    <div class="hidden-xs">
+	    <div class="row">
+	        <div class="col-md-10"> 
+    {% for song in artist.song_set.all %}
+	            <div class="text-muted">
+        <p>
+		<h6>{{ song.track }} &nbsp; <font color="black">{{ song.title }}</font>&nbsp;&nbsp;&nbsp;<a href="{% url 'artist_detail' artist.pk %}"><b>{{ song.name_artists }}
+		</b>
+		</a>&nbsp;
+	    <a href="{% url 'album_detail' song.album.pk %}">{{song.album}}
+		</a>&nbsp; {{song.year}}&nbsp; {{song.genres}}&nbsp;&nbsp;
+		</h6>
+		</p> 
+                </div>
+    {% endfor %}
+	        </div>
+	        <div class="col-md-2"> 
+	        </div>
+	    </div>
+	</div>
+{% endblock %}
+
+{% block player %}
+    <hr>
+    <h3 class="text-muted" align="center">Плейлист
+	</h3>
+    <hr>
+    <div class="panel panel-default">
+        <audio id="audio"  controls>
+	    {% for song in artist.song_set.all %}
+	        <source src="{{ MEDIA_URL }}{{ song.path }}{{song.file_name}}">
+	    {% endfor %}
+	    </audio>
+    </div>
+    <ul id="playlist">
+		{% for song in artist.song_set.all %}
+		<li class="list-group-item">
+	    <a href="{{ MEDIA_URL }}{{ song.path }}{{song.file_name}}"><small>{{ song.track }} &nbsp;{{ song.title }}</small>
+		</a>
+        </li>
+	    {% endfor %}	
+    </ul>  
+        <script src=/static/js/playlist.js"></script>  	
+    </body>
+{% endblock %}

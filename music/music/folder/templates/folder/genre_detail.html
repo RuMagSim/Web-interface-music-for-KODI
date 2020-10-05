@@ -1,0 +1,10 @@
+{% extends "base_generic.html" %}
+{% block content %}
+    <h3>{{ genre.name_genre }}</h3>
+    <hr>
+    {% for members in genre.members.all %}
+    <hr>
+    <p><h5>Альбом:</h5> </p>
+    <p><strong><a href="{% url 'album_detail' members.pk %}">{{ members }} </a></strong> &nbsp; {{members.artists}}</p>
+	{% endfor %}
+{%  endblock %}

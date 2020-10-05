@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+{% block content %}
+    <div class="text-muted">
+    <h2 >Жанр</h2>
+
+        <div class="newspaper">
+	{% if genre_list %}
+    {% for genre in genre_list %}
+        <h5>
+            <a href="{{ genre.get_absolute_url }}">{{ genre.name_genre }}</a>  &nbsp; {{ genre.members.all.count }}
+        </h5>
+    {% endfor %}
+    {% else %}
+    <p>There are no artists in the library.</p>
+    {% endif %}   
+        </div>
+	</div>
+	{% endblock %}

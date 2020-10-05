@@ -1,0 +1,42 @@
+{% extends "base_generic.html" %}
+{% block head %}
+   {% block menu %}
+   {% endblock %}
+{% endblock %}
+
+{% block content %}
+    <hr>
+    {% if art_list %}
+    {% for art in art_list %}
+        <center><img src="{{ MEDIA_URL }}{{ art }}" width="520" height="auto"  class="img-responsive"> </center>
+    {% endfor %}
+    {% else %}
+    <p>There are no art in the library.</p>
+    {% endif %} 
+    <hr>
+
+    <h3>{{ artist.name_artist }}</h3>
+    <div>
+   	<hr>
+	<div style="margin-left:20px;margin-top:20px">
+    {% for album in artist.album_set.all %}
+	<hr>
+	<table width="100%">
+	    <tr>
+	        <td width="400">
+                <p><strong><a href="{% url 'album_detail' album.pk %}">{{ album }} </a></strong> &nbsp; {{album.year}}
+				</p>
+            </td>
+	        <td>
+	            {% for art in album.art_set.all %}
+				{% if "album" in art.media_type and "thumb" in art.type %}
+	            <p><img src="{{ MEDIA_URL }}{{ art }}" class="img-responsive" width="120" height="auto" align="right">
+	           </p> 
+	            {% endif %}
+				{% endfor %}
+	        </td>
+	    </tr>
+	</table>
+    {% endfor %}
+    </div>
+{% endblock %}
