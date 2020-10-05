@@ -29,9 +29,9 @@
 </VirtualHost>
 
 <VirtualHost *:80>
-    ServerName localhost
-    ServerAlias localhost
-# axe from staic files django
+     ServerName localhost
+     ServerAlias localhost
+     # axe from staic files django
     Alias  "/albums/static" /var/www/music/music/folder/static/
     Alias /static /var/www/music/music/folder/static
     Alias /search/static /var/www/music/music/folder/static
